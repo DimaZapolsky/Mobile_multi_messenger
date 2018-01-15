@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#0088cc">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="40sp"
+        android:text="@string/ask_auth"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold|italic"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textAlignment="center"
+        android:layout_marginTop="50dp"
+        android:id="@+id/ask_auth"/>
+
+    <Button
+        android:id="@+id/vk_auth_btn"
+        android:layout_height="100dp"
+        android:layout_width="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ask_auth"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/telegram_auth_btn"
+        android:layout_margin="5dp"
+        android:background="@drawable/vk_ico"/>
+
+    <Button
+        android:id="@+id/telegram_auth_btn"
+        android:layout_height="100dp"
+        android:layout_width="100dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ask_auth"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/vk_auth_btn"
+        android:layout_margin="5dp"
+        android:background="@drawable/telegram_ico"/>
+
+</android.support.constraint.ConstraintLayout>
