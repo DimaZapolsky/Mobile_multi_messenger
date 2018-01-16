@@ -70,6 +70,6 @@ public abstract class Dialog implements Comparable<Dialog> {
 
     @Override
     public int compareTo(@NonNull Dialog o) {
-        return getLast().getDateTime().compareTo(o.getLast().getDateTime());
+        return o.getLast().getDateTime().compareTo(getLast().getDateTime());
     }
 }
