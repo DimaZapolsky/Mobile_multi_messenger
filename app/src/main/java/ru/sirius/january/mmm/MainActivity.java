@@ -8,7 +8,9 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.vk.sdk.VKAccessToken;
 
@@ -73,7 +75,11 @@ public class MainActivity extends AppCompatActivity {
         return dialogs;
     }
 
+
+    DialogListFragment dialogListFragment;
+
     private void setMainScreen() {
+        getSupportActionBar().show();
         setContentView(R.layout.activity_main);
         findViewById(R.id.add_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,13 +87,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.dialogs_rv, DialogListFragment.newInstance(getTestDialogs(), new DialogListFragment.OnItemClickListenner() {
-                    @Override
-                    public void onItemClicked(Dialog dialog) {
+        dialogListFragment = DialogListFragment.newInstance(new ArrayList<Dialog>(), new DialogListFragment.OnItemClickListenner() {
+            @Override
+            public void onItemClicked(Dialog dialog) {
 
-                    }
-                })).commit();
+            }
+        });
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.dialogs_rv, dialogListFragment).commit();;
     }
 
     @Override

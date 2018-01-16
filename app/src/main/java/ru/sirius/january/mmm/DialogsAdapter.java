@@ -1,8 +1,6 @@
 package ru.sirius.january.mmm;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +34,6 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogHo
             this.callback = callback;
             itemView.setOnClickListener(this);
         }
-
     }
 
     private ArrayList<Dialog> dialogs;
@@ -45,6 +42,11 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogHo
     public DialogsAdapter(ArrayList<Dialog> dialogs, DialogListFragment.OnItemClickListenner callback) {
         this.dialogs = dialogs;
         this.callback = callback;
+    }
+
+    public void addDialog(Dialog dialog) {
+        dialogs.add(dialog);
+        notifyItemChanged(dialogs.size() - 1);
     }
 
     @Override

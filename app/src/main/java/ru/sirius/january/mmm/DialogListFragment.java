@@ -18,10 +18,17 @@ public class DialogListFragment extends Fragment {
         void onItemClicked(Dialog dialog);
     }
 
+    interface OnAddDialog {
+        void onAddDialog(Dialog dialog);
+    }
+
     public DialogListFragment() {}
 
     private ArrayList<Dialog> dialogs;
     private OnItemClickListenner callback;
+    private DialogsAdapter dialogsAdapter;
+
+    void addDialog(Dialog dialog) { dialogsAdapter.addDialog(dialog); }
 
     public static DialogListFragment newInstance(ArrayList<Dialog> dialogs, OnItemClickListenner callback) {
         DialogListFragment dialogListFragment = new DialogListFragment();
@@ -35,7 +42,7 @@ public class DialogListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.dialogs_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        DialogsAdapter dialogsAdapter = new DialogsAdapter(dialogs, callback);
+        dialogsAdapter = new DialogsAdapter(dialogs, callback);
         recyclerView.setAdapter(dialogsAdapter);
     }
 

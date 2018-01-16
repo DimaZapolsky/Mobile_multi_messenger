@@ -1,7 +1,3 @@
 package ru.sirius.january.mmm;
 
-public class User {
-
-
-
-}
+public class User {}
