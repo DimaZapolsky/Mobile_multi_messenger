@@ -1,25 +1,18 @@
 package ru.sirius.january.mmm;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.TextureView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.vk.sdk.VKAccessToken;
 
-import java.io.File;
 import java.util.ArrayList;
 
+import ru.sirius.january.mmm.data.abstracts.Dialog;
 import ru.sirius.january.mmm.store.StorageManager;
+import ru.sirius.january.mmm.vk.VKHelper;
 import ru.sirius.january.mmm.vk.VkAuthActivity;
-import ru.sirius.january.mmm.vk.VkHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private ArrayList<Dialog> getTestDialogs() {
+    /*private ArrayList<Dialog> getTestDialogs() {
 
         ArrayList<Message> messages = new ArrayList<>();
         Message msg = new Message();
@@ -73,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return dialogs;
-    }
+    }*/
 
 
     DialogListFragment dialogListFragment;
@@ -87,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        dialogListFragment = DialogListFragment.newInstance(new ArrayList<Dialog>(), new DialogListFragment.OnItemClickListenner() {
+        dialogListFragment = DialogListFragment.newInstance(new DialogListFragment.OnItemClickListener() {
             @Override
             public void onItemClicked(Dialog dialog) {
 
@@ -105,7 +98,11 @@ public class MainActivity extends AppCompatActivity {
         if (vkAccessToken == null) {
             setChooseAccountScreen();
         } else {
-            VkHelper.setVkAccessToken(vkAccessToken);
+            try {
+                GeneralManager.getInstance(getApplicationContext()).startVKTracking();
+            } catch (VKHelper.VKUnauthorizedException e) {
+                e.printStackTrace();
+            }
             setMainScreen();
         }
     }
@@ -114,6 +111,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StorageManager.getInstance(getApplicationContext());
+        try {
+            GeneralManager.getInstance(getApplicationContext()).startVKTracking();
+            GeneralManager.getInstance(getApplicationContext()).setCallback(dialogListFragment);
+        } catch (VKHelper.VKUnauthorizedException e) {
+            e.printStackTrace();
+        }
         getSupportActionBar().hide();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GeneralManager.getInstance(getApplication()).stopVKTracking();
+        GeneralManager.getInstance(getApplicationContext()).setCallback(null);
     }
 }

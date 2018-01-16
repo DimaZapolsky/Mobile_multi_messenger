@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
+import ru.sirius.january.mmm.data.abstracts.Dialog;
+import ru.sirius.january.mmm.data.abstracts.Message;
 import ru.sirius.january.mmm.store.StorageManager;
 
 public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogHolder> {
@@ -24,9 +24,9 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogHo
         private TextView message;
         private TextView name;
         private ImageView icon;
-        private DialogListFragment.OnItemClickListenner callback;
+        private DialogListFragment.OnItemClickListener callback;
 
-        public DialogHolder(View itemView, final DialogListFragment.OnItemClickListenner callback) {
+        public DialogHolder(View itemView, final DialogListFragment.OnItemClickListener callback) {
             super(itemView);
             message = itemView.findViewById(R.id.last_message_view);
             name = itemView.findViewById(R.id.name_view);
@@ -36,17 +36,14 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogHo
         }
     }
 
-    private ArrayList<Dialog> dialogs;
-    private DialogListFragment.OnItemClickListenner callback;
+    private DialogListFragment.OnItemClickListener callback;
 
-    public DialogsAdapter(ArrayList<Dialog> dialogs, DialogListFragment.OnItemClickListenner callback) {
-        this.dialogs = dialogs;
+    public DialogsAdapter(DialogListFragment.OnItemClickListener callback) {
         this.callback = callback;
     }
 
-    public void addDialog(Dialog dialog) {
-        dialogs.add(dialog);
-        notifyItemChanged(dialogs.size() - 1);
+    public void OnDialogUpdate(int num) {
+        notifyItemChanged(num);
     }
 
     @Override
@@ -57,8 +54,8 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogHo
 
     @Override
     public void onBindViewHolder(DialogHolder holder, int position) {
-        Dialog dialog = dialogs.get(position);
-        Message last_message = dialog.getMessages().get(dialog.getMessages().size() - 1);
+        Dialog dialog = GeneralManager.getInstance(null).getDialogByPosition(position);
+        Message last_message = dialog.getLast();
         holder.message.setText(last_message.getText());
         holder.name.setText(dialog.getName());
         holder.icon.setImageBitmap(StorageManager.getInstance(null).getCachedBitmap(dialog.getImageKey()));
@@ -67,6 +64,6 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogHo
 
     @Override
     public int getItemCount() {
-        return dialogs.size();
+        return GeneralManager.getInstance(null).getDialogsNumber();
     }
 }

@@ -12,27 +12,25 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import ru.sirius.january.mmm.data.abstracts.Dialog;
+
 public class DialogListFragment extends Fragment {
 
-    interface OnItemClickListenner {
+    interface OnItemClickListener {
         void onItemClicked(Dialog dialog);
     }
 
-    interface OnAddDialog {
-        void onAddDialog(Dialog dialog);
-    }
 
     public DialogListFragment() {}
 
-    private ArrayList<Dialog> dialogs;
-    private OnItemClickListenner callback;
+
+    private OnItemClickListener callback;
     private DialogsAdapter dialogsAdapter;
 
-    void addDialog(Dialog dialog) { dialogsAdapter.addDialog(dialog); }
+    void OnDialogUpdate(int position) { dialogsAdapter.OnDialogUpdate(position); }
 
-    public static DialogListFragment newInstance(ArrayList<Dialog> dialogs, OnItemClickListenner callback) {
+    public static DialogListFragment newInstance(OnItemClickListener callback) {
         DialogListFragment dialogListFragment = new DialogListFragment();
-        dialogListFragment.dialogs = dialogs;
         dialogListFragment.callback = callback;
         return dialogListFragment;
     }
@@ -42,7 +40,7 @@ public class DialogListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.dialogs_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        dialogsAdapter = new DialogsAdapter(dialogs, callback);
+        dialogsAdapter = new DialogsAdapter(callback);
         recyclerView.setAdapter(dialogsAdapter);
     }
 
