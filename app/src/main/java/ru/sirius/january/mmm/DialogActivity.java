@@ -25,13 +25,17 @@ public class DialogActivity extends AppCompatActivity {
     private TextView nameView;
     private Dialog dialog;
 
+    public static final String DIALOG_TAG = "DIALOG_TAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
-        getSupportFragmentManager().beginTransaction().add(R.id.dialog_messages_view, DialogViewFragment.newInstance(1727)).addToBackStack(null).commit();
+        int id = 0;
+        getIntent().getIntExtra(DIALOG_TAG, id);
+        getSupportFragmentManager().beginTransaction().add(R.id.dialog_messages_view, DialogViewFragment.newInstance(id)).addToBackStack(null).commit();
 
-        dialog = GeneralManager.getInstance(null).getDialogByPosition(0); /// fix later
+        dialog = GeneralManager.getInstance(null).getChatByID(id); /// fix later
         iconView = findViewById(R.id.dialog_icon_view);
         sendButton = findViewById(R.id.send_button);
         addContentButton = findViewById(R.id.add_content_button);

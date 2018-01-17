@@ -83,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
         dialogListFragment = DialogListFragment.newInstance(new DialogListFragment.OnItemClickListener() {
             @Override
             public void onItemClicked(Dialog dialog) {
-
+                Intent intent = new Intent(getApplicationContext(), DialogActivity.class);
+                intent.putExtra(DialogActivity.DIALOG_TAG, dialog.getUniqueID());
+                startActivity(intent);
             }
         });
         getSupportFragmentManager().beginTransaction()
