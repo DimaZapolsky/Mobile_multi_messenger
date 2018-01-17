@@ -32,7 +32,7 @@ public class DialogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
         int id = 0;
-        getIntent().getIntExtra(DIALOG_TAG, id);
+        id = getIntent().getIntExtra(DIALOG_TAG, -1);
         getSupportFragmentManager().beginTransaction().add(R.id.dialog_messages_view, DialogViewFragment.newInstance(id)).addToBackStack(null).commit();
 
         dialog = GeneralManager.getInstance(null).getChatByID(id); /// fix later

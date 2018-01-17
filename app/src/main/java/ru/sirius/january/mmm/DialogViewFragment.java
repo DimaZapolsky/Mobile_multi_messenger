@@ -35,6 +35,10 @@ public class DialogViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (savedInstanceState != null) {
+            chatId = savedInstanceState.getInt(CHAT_ID_TAG);
+            dialog = GeneralManager.getInstance(null).getChatByID(chatId);
+        }
     }
 
     @Override
