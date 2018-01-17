@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".vk.VkAuthActivity" />
-        <activity android:name=".DialogActivity"></activity>
+        <activity android:name=".DialogActivity" />
     </application>
 
 </manifest>
