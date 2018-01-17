@@ -115,4 +115,6 @@ public final class GeneralManager implements Core {
     {
         return dialogList.get(position);
     }
+
+    public void sendMessage(Dialog dialog, String text, ArrayList attachments) {}
 }

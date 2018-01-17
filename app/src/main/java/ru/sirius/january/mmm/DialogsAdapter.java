@@ -56,7 +56,11 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogHo
     public void onBindViewHolder(DialogHolder holder, int position) {
         Dialog dialog = GeneralManager.getInstance(null).getDialogByPosition(position);
         Message last_message = dialog.getLast();
-        holder.message.setText(last_message.getText());
+        String message = last_message.getText();
+        if (message.length() > 40) {
+            message = message.substring(0, 37) + "...";
+        }
+        holder.message.setText(message);
         holder.name.setText(dialog.getName());
         holder.icon.setImageBitmap(StorageManager.getInstance(null).getCachedBitmap(dialog.getImageKey()));
         holder.dialog = dialog;

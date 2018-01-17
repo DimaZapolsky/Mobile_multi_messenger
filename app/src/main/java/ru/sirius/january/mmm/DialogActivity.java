@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 
 import ru.sirius.january.mmm.data.abstracts.Dialog;
+import ru.sirius.january.mmm.data.abstracts.Message;
 import ru.sirius.january.mmm.store.StorageManager;
 
 public class DialogActivity extends AppCompatActivity {
@@ -41,6 +43,16 @@ public class DialogActivity extends AppCompatActivity {
         addContentButton = findViewById(R.id.add_content_button);
         messageEdit = findViewById(R.id.type_message);
         nameView = findViewById(R.id.dialog_name_view);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (messageEdit.getText().toString().length() > 0) {
+                    GeneralManager.getInstance(null).sendMessage(dialog, messageEdit.getText().toString(), null);
+                    messageEdit.setText("");
+                }
+            }
+        });
 
         iconView.setImageBitmap(StorageManager.getInstance(null).getCachedBitmap(dialog.getImageKey()));
         nameView.setText(dialog.getName());

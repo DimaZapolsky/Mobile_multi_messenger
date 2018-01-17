@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,19 @@ public class DialogViewFragment extends Fragment {
     private int chatId;
     private Dialog dialog;
 
+    public int getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(int chatId) {
+        this.chatId = chatId;
+    }
+
     public DialogViewFragment() {}
 
     public static DialogViewFragment newInstance(int chatId) {
         DialogViewFragment fragment = new DialogViewFragment();
+        fragment.setChatId(chatId);
         Bundle args = new Bundle();
         args.putInt(CHAT_ID_TAG, chatId);
         return fragment;
@@ -35,10 +45,7 @@ public class DialogViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            chatId = savedInstanceState.getInt(CHAT_ID_TAG);
-            dialog = GeneralManager.getInstance(null).getChatByID(chatId);
-        }
+        dialog = GeneralManager.getInstance(null).getChatByID(chatId);
     }
 
     @Override
