@@ -104,7 +104,7 @@ public final class GeneralManager {
 
     public void startVKTracking() throws VKHelper.VKUnauthorizedException {
         vkHelper = VKHelper.getInstance(context, this);
-        vkHelper.loadChats(5, null);
+        vkHelper.loadChats(100, null);
         vkHelper.startPolling();
     }
 
@@ -117,23 +117,23 @@ public final class GeneralManager {
 
     volatile private DialogListFragment dialogListFragment = null;
 
-    synchronized public void setDialogsCallback(DialogListFragment dialogListFragment) {
+    public void setDialogsCallback(DialogListFragment dialogListFragment) {
         this.dialogListFragment = dialogListFragment;
     }
 
-    synchronized public int getDialogsNumber()
+    public int getDialogsNumber()
     {
         return dialogList.size();
     }
 
-    synchronized public Dialog getDialogByPosition(int position) {
+    public Dialog getDialogByPosition(int position) {
         return dialogList.get(position);
     }
 
     volatile private Dialog currentDialog = null;
     volatile private DialogViewFragment dialogCallback = null;
 
-    synchronized public void setDialogCallback(DialogViewFragment callback, Dialog dialog) {
+    public void setDialogCallback(DialogViewFragment callback, Dialog dialog) {
         dialogCallback = callback;
         currentDialog = dialog;
         if (dialog != null)

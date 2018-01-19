@@ -73,6 +73,7 @@ public class DialogViewFragment extends Fragment {
     }
 
     public void onMessageUpdate(int pos) {
-        adapter.onMessageUpdate(pos);
+        if (adapter != null)
+            adapter.onMessageUpdate(pos);
     }
 }

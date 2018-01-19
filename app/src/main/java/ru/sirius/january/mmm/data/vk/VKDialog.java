@@ -41,9 +41,9 @@ public final class VKDialog extends Dialog {
     public void loadOld() {
         VKRequest request;
         if (getMessages().size() == 0)
-            request = new VKRequest("messages.getHistory", VKParameters.from(VKApiConst.OFFSET, 0, VKApiConst.COUNT, 10, "peer_id", id));
+            request = new VKRequest("messages.getHistory", VKParameters.from(VKApiConst.OFFSET, 0, VKApiConst.COUNT, 100, "peer_id", id));
         else
-            request = new VKRequest("messages.getHistory", VKParameters.from(VKApiConst.START_MESSAGE_ID, ((VKMessage) getMessages().get(0)).getId(), VKApiConst.OFFSET, 0, VKApiConst.COUNT, 10, "peer_id", id, "user_id", ""));
+            request = new VKRequest("messages.getHistory", VKParameters.from(VKApiConst.START_MESSAGE_ID, ((VKMessage) getMessages().get(0)).getId(), VKApiConst.OFFSET, 0, VKApiConst.COUNT, 100, "peer_id", id, "user_id", ""));
         request.getPreparedParameters().put("v", "5.52");
         final VKDialog dialog = this;
         final ArrayList<VKMessage> messagesToUpdate = new ArrayList<>();
