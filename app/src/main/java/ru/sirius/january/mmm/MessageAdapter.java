@@ -9,10 +9,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import ru.sirius.january.mmm.data.abstracts.Dialog;
 import ru.sirius.january.mmm.data.abstracts.Message;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageHolder> {
-    ArrayList<Message> messages;
+    Dialog dialog = null;
+
+    public void onMessageUpdate(int pos) {
+        notifyItemChanged(pos);
+    }
 
     class MessageHolder extends RecyclerView.ViewHolder {
         private TextView message;
@@ -28,14 +33,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
         return new MessageHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.message_view, parent, false));
     }
 
-    public MessageAdapter(ArrayList<Message> messages) {
-        this.messages = messages;
+    public MessageAdapter(Dialog dialog) {
+        this.dialog = dialog;
     }
 
     @Override
     public void onBindViewHolder(MessageHolder holder, int position) {
-        holder.message.setText(messages.get(position).getText());
-        if (messages.get(position).isMine()) {
+        Message message = GeneralManager.getInstance(null).getMessageByPosition(position);
+        holder.message.setText(message.getText());
+        if (message.isMine()) {
             holder.message.setGravity(Gravity.RIGHT);
         }
         else {
@@ -45,6 +51,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        return GeneralManager.getInstance(null).getMessagesNumber();
     }
 }

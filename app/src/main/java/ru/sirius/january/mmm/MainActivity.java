@@ -7,8 +7,6 @@ import android.view.View;
 
 import com.vk.sdk.VKAccessToken;
 
-import java.util.ArrayList;
-
 import ru.sirius.january.mmm.data.abstracts.Dialog;
 import ru.sirius.january.mmm.store.StorageManager;
 import ru.sirius.january.mmm.vk.VKHelper;
@@ -115,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         StorageManager.getInstance(getApplicationContext());
         try {
             GeneralManager.getInstance(getApplicationContext()).startVKTracking();
-            GeneralManager.getInstance(getApplicationContext()).setCallback(dialogListFragment);
+            GeneralManager.getInstance(getApplicationContext()).setDialogsCallback(dialogListFragment);
         } catch (VKHelper.VKUnauthorizedException e) {
             e.printStackTrace();
         }
@@ -126,6 +124,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         GeneralManager.getInstance(getApplication()).stopVKTracking();
-        GeneralManager.getInstance(getApplicationContext()).setCallback(null);
+        GeneralManager.getInstance(getApplicationContext()).setDialogsCallback(null);
     }
 }

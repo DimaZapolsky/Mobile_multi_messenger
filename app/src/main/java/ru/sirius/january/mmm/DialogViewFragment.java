@@ -48,18 +48,31 @@ public class DialogViewFragment extends Fragment {
         dialog = GeneralManager.getInstance(null).getChatByID(chatId);
     }
 
+    MessageAdapter adapter = null;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         messagesView = view.findViewById(R.id.dialog_messages_view);
 
-        MessageAdapter adapter = new MessageAdapter(dialog.getMessages());
+        MessageAdapter adapter = new MessageAdapter(dialog);
         messagesView.setLayoutManager(new LinearLayoutManager(getContext()));
         messagesView.setAdapter(adapter);
+        GeneralManager.getInstance(getContext()).setDialogCallback(this, dialog);
+    }
+
+    @Override
+    public void onDestroyView() {
+        GeneralManager.getInstance(getContext()).setDialogCallback(null, null);
+        super.onDestroyView();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_dialog_view, container, false);
+    }
+
+    public void onMessageUpdate(int pos) {
+        adapter.onMessageUpdate(pos);
     }
 }

@@ -18,12 +18,13 @@ public final class VKMessage extends Message {
         this.id = id;
     }
 
-    public VKMessage(int id, String text, Date date_time, User owner) {
+    public VKMessage(int id, String text, Date date_time, User owner, boolean isMine) {
         super(UniqueIDBuilder.VK(id));
         this.id = id;
         this.setText(text);
         this.setDateTime(date_time);
         this.setOwner(owner);
+        this.isMine = isMine;
     }
 
     @Override

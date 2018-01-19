@@ -1,16 +1,22 @@
 package ru.sirius.january.mmm.data.abstracts;
 
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 
-public abstract class Message {
+public abstract class Message implements Comparable<Message> {
     private final int uniqueID;
     private String text = null;
     private Date dateTime = null;
     private User owner = null;
     private boolean isRead = true;
-    private boolean isMine = false;
+    protected boolean isMine = false;
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
 
     public Message(int uniqueID) {
         this.uniqueID = uniqueID;
@@ -62,5 +68,10 @@ public abstract class Message {
 
     public boolean isMine() {
         return isMine;
+    }
+
+    @Override
+    public int compareTo(@NonNull Message o) {
+        return o.getDateTime().compareTo(getDateTime());
     }
 }
