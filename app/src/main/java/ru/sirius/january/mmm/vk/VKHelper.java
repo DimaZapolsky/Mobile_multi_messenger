@@ -18,11 +18,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import ru.sirius.january.mmm.GeneralManager;
 import ru.sirius.january.mmm.data.UniqueIDBuilder;
 import ru.sirius.january.mmm.data.abstracts.Dialog;
 import ru.sirius.january.mmm.data.abstracts.Message;
+import ru.sirius.january.mmm.data.abstracts.User;
 import ru.sirius.january.mmm.data.vk.VKDialog;
 import ru.sirius.january.mmm.data.vk.VKMessage;
 import ru.sirius.january.mmm.data.vk.VKUser;
@@ -54,25 +57,58 @@ public final class VKHelper {
 
     public void loadUsers(final ArrayList<VKUser> users)
     {
-        ArrayList<Integer> ids = new ArrayList<>();
-        for (VKUser user : users)
-            ids.add(user.id);
-        final VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.USER_IDS, Arrays.toString(ids.toArray()), VKApiConst.FIELDS, Arrays.toString((new String[]{"photo_100", "online", "last_seen"}))));
-        request.executeSyncWithListener(new VKRequest.VKRequestListener() {
-            @Override
-            public void onComplete(VKResponse response) {
-                super.onComplete(response);
-                try {
-                    JSONArray items = response.json.getJSONArray("response");
-                    for (int i = 0; i < users.size(); ++i) {
-                        users.get(i).fromJson(items.getJSONObject(i));
-                        GeneralManager.getInstance(null).updateUser(users.get(i));
+        if (users.size() != 0) {
+            final ArrayList<Integer> ids = new ArrayList<>();
+            for (VKUser user : users)
+                ids.add(user.id);
+            String idss = Arrays.toString(ids.toArray());
+            String f = Arrays.toString((new String[]{"photo_100", "online", "last_seen"}));
+            final VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.USER_IDS, idss.substring(1, idss.length() - 1), VKApiConst.FIELDS, f.substring(1, f.length() - 1)));
+            request.getPreparedParameters().put("v", "5.52");
+            request.executeSyncWithListener(new VKRequest.VKRequestListener() {
+                @Override
+                public void onComplete(VKResponse response) {
+                    super.onComplete(response);
+                    try {
+                        JSONArray items = response.json.getJSONArray("response");
+                        for (int i = 0; i < users.size(); ++i) {
+                            users.get(i).fromJson(items.getJSONObject(i));
+                            GeneralManager.getInstance(null).updateUser(users.get(i));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
-        });
+            });
+        }
+    }
+
+    public void loadGroups(final ArrayList<VKUser> users) {
+        if (users.size() != 0) {
+            final ArrayList<Integer> ids = new ArrayList<>();
+            for (VKUser user : users)
+                ids.add(-user.id);
+            String idss = Arrays.toString(ids.toArray());
+            final VKRequest request = VKApi.groups().getById(VKParameters.from("group_ids", idss.substring(1, idss.length() - 1)));
+            request.getPreparedParameters().put("v", "5.52");
+            request.executeSyncWithListener(new VKRequest.VKRequestListener() {
+                @Override
+                public void onComplete(VKResponse response) {
+                    super.onComplete(response);
+                    try {
+                        JSONArray items = response.json.getJSONArray("response");
+                        for (int i = 0; i < users.size(); ++i) {
+                            JSONObject item = items.getJSONObject(i);
+                            users.get(i).setName(item.optString("name"));
+                            users.get(i).setImageKey(item.optString("photo_100"));
+                            GeneralManager.getInstance(null).updateUser(users.get(i));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
     }
 
     public void loadChats(int count, @Nullable Dialog lastDialog) {
@@ -82,8 +118,10 @@ public final class VKHelper {
                 request = new VKRequest("messages.getDialogs", VKParameters.from(VKParameters.from(VKApiConst.COUNT, Math.min(200, count))));
             else
                 request = new VKRequest("messages.getDialogs", VKParameters.from(VKParameters.from(VKApiConst.COUNT, Math.min(200, count), VKApiConst.START_MESSAGE_ID, ((VKMessage) lastDialog.getLast()).getId())));
-            final ArrayList<VKDialog> dialogsToUpdate = new ArrayList<>();
-            final ArrayList<VKUser> usersToLoad = new ArrayList<>();
+            final HashMap<Integer, ArrayList<VKDialog>> dialogsToUpdate = new HashMap<>();
+            final HashSet<VKUser> usersToLoad = new HashSet<>();
+            final HashSet<VKUser> groupsToLoad = new HashSet<>();
+            request.getPreparedParameters().put("v", "5.52");
             request.executeSyncWithListener(new VKRequest.VKRequestListener() {
                 @Override
                 public void onComplete(VKResponse response) {
@@ -138,8 +176,15 @@ public final class VKHelper {
                                 chat.setLast(vkMessage);
                             }
                             if (!hasTitle) {
-                                usersToLoad.add(with);
-                                dialogsToUpdate.add(chat);
+                                if (owner.id > 0) {
+                                    usersToLoad.add(with);
+                                }
+                                else {
+                                    groupsToLoad.add(with);
+                                }
+                                if (!dialogsToUpdate.containsKey(with.id))
+                                    dialogsToUpdate.put(with.id, new ArrayList<VKDialog>());
+                                dialogsToUpdate.get(with.id).add(chat);
                             }
                             if (newMessage) {
                                 core.addMessage(vkMessage, chat);
@@ -152,11 +197,15 @@ public final class VKHelper {
                     }
                 }
             });
-            loadUsers(usersToLoad);
-            for (int i = 0; i < dialogsToUpdate.size(); ++i) {
-                dialogsToUpdate.get(i).setName(usersToLoad.get(i).getName());
-                dialogsToUpdate.get(i).setImageKey(usersToLoad.get(i).getImageKey());
-                GeneralManager.getInstance(null).updateChat(dialogsToUpdate.get(i));
+            loadUsers(new ArrayList<VKUser>(usersToLoad));
+            loadGroups(new ArrayList<VKUser>(groupsToLoad));
+            for (HashMap.Entry<Integer, ArrayList<VKDialog>> pair : dialogsToUpdate.entrySet()) {
+                User user = core.getUserByID(UniqueIDBuilder.VK(pair.getKey()));
+                for (VKDialog dialog : pair.getValue()) {
+                    dialog.setName(user.getName());
+                    dialog.setImageKey(user.getImageKey());
+                    core.updateChat(dialog);
+                }
             }
             count -= Math.min(200, count);
         }
