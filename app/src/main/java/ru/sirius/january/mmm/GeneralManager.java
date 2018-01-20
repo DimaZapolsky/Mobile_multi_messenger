@@ -148,5 +148,7 @@ public final class GeneralManager {
         return currentDialog.getMessages().size();
     }
 
-    public void sendMessage(Dialog dialog, String text, ArrayList attachments) {}
+    public void sendMessage(Dialog dialog, String text, ArrayList attachments) {
+
+    }
 }

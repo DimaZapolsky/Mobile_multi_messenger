@@ -131,7 +131,7 @@ public final class VKHelper {
                         for (int i = 0; i < items.length(); ++i) {
                             JSONObject msg = items.getJSONObject(i).getJSONObject("message");
                             int with_id = msg.getInt("user_id");
-                            VKUser with = (VKUser)core.getUserByID(UniqueIDBuilder.VK(with_id));
+                            VKUser with = (VKUser) core.getUserByID(UniqueIDBuilder.VK(with_id));
                             if (with == null) {
                                 with = new VKUser(with_id);
                                 core.addUser(with);
@@ -141,7 +141,7 @@ public final class VKHelper {
                                 owner = me;
                             }
                             int msg_id = msg.getInt("id");
-                            VKMessage vkMessage = (VKMessage)core.getMessageByID(msg_id);
+                            VKMessage vkMessage = (VKMessage) core.getMessageByID(msg_id);
                             boolean newMessage = false;
                             if (vkMessage == null) {
                                 newMessage = true;
@@ -153,13 +153,14 @@ public final class VKHelper {
                                 chat_id = 2000000000 + msg.getInt("chat_id");
                                 hasTitle = true;
                             }
-                            VKDialog chat = (VKDialog)core.getChatByID(chat_id);
+                            VKDialog chat = (VKDialog) core.getChatByID(chat_id);
                             String title = with.getName();
                             String image = with.getImageKey();
                             int unread = 0;
                             try {
                                 unread = items.getJSONObject(i).getInt("unread");
-                            } catch (JSONException ignored) {}
+                            } catch (JSONException ignored) {
+                            }
                             if (hasTitle) {
                                 try {
                                     image = msg.getString("photo_100");
@@ -178,8 +179,7 @@ public final class VKHelper {
                             if (!hasTitle) {
                                 if (owner.id > 0) {
                                     usersToLoad.add(with);
-                                }
-                                else {
+                                } else {
                                     groupsToLoad.add(with);
                                 }
                                 if (!dialogsToUpdate.containsKey(with.id))
@@ -202,7 +202,6 @@ public final class VKHelper {
             for (HashMap.Entry<Integer, ArrayList<VKDialog>> pair : dialogsToUpdate.entrySet()) {
                 User user = core.getUserByID(UniqueIDBuilder.VK(pair.getKey()));
                 for (VKDialog dialog : pair.getValue()) {
-                    dialog.setName(user.getName());
                     dialog.setImageKey(user.getImageKey());
                     core.updateChat(dialog);
                 }
@@ -210,6 +209,8 @@ public final class VKHelper {
             count -= Math.min(200, count);
         }
     }
+
+
 
     public void startPolling() {
 
