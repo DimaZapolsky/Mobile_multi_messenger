@@ -55,9 +55,10 @@ public class DialogViewFragment extends Fragment {
         messagesView = view.findViewById(R.id.dialog_messages_view);
 
         MessageAdapter adapter = new MessageAdapter(dialog);
+        GeneralManager.getInstance(getContext()).setDialogCallback(this, dialog);
         messagesView.setLayoutManager(new LinearLayoutManager(getContext()));
         messagesView.setAdapter(adapter);
-        GeneralManager.getInstance(getContext()).setDialogCallback(this, dialog);
+        messagesView.scrollToPosition(adapter.getItemCount() - 1);
     }
 
     @Override
