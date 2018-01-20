@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/alexey/Documents/Code/MMM/libtd/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+            "map": [
+                {
+                    "source": "/Users/alexey/Documents/Code/MMM/libtd/build/intermediates/bundles/debug/res/values/values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "39",
+                        "endOffsets": "90"
+                    }
+                }
+            ]
+        }
+    ]
+}

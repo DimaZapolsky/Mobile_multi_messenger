@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".vk.VkAuthActivity" />
         <activity android:name=".DialogActivity" />
+        <activity android:name=".telegram.TelegramAuthActivity"></activity>
     </application>
 
 </manifest>

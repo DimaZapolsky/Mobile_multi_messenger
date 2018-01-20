@@ -2,6 +2,8 @@ package ru.sirius.january.mmm;
 
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.DrawFilter;
 import android.os.AsyncTask;
 
 import java.lang.reflect.Array;
@@ -80,8 +82,7 @@ public final class GeneralManager {
     }
 
     synchronized public void updateChat(Dialog dialog) {
-        //TODO: optimise
-        Arrays.sort(dialogList.toArray());
+        Collections.sort(dialogList);
         if (dialogListFragment != null) {
             for (int i = 0; i < dialogList.size(); ++i)
                 dialogListFragment.OnDialogUpdate(i);
