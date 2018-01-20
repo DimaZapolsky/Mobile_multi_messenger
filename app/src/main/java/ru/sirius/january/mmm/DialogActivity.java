@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Text;
 
 import java.io.IOException;
@@ -55,6 +57,8 @@ public class DialogActivity extends AppCompatActivity {
         });
 
         iconView.setImageBitmap(StorageManager.getInstance(null).getCachedBitmap(dialog.getImageKey()));
+        //Picasso.with(getApplicationContext()).load("http://is1.mzstatic.com/image/thumb/Purple5/v4/12/a1/d1/12a1d127-6f0e-23a5-0b21-cc3b442d3e8c/source/1200x630bb.jpg").into(iconView);
+
         nameView.setText(dialog.getName());
     }
 }
