@@ -1,5 +1,6 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp"
@@ -7,40 +8,126 @@
     android:layout_marginBottom="2dp"
     android:layout_marginLeft="4dp"
     android:layout_marginRight="4dp"
-    android:background="#e6e6e6">
+    android:background="#e6e6e6"
+    tools:ignore="ExtraText">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:gravity="center_vertical">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/chat_image_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:civ_border_color="@color/vk_white"
+            app:civ_border_width="3dp"
+            tools:ignore="NotSibling"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/name_ans_message"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:id="@+id/name_ans_message"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            card_view:layout_constraintLeft_toRightOf="@id/chat_image_view"
+            card_view:layout_constraintRight_toRightOf="@id/musor"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
+                android:text="name"
                 android:id="@+id/name_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                card_view:layout_constraintTop_toBottomOf="parent"
+                card_view:layout_constraintBottom_toTopOf="@id/last_message_view"
+                card_view:layout_constraintLeft_toRightOf="@id/chat_image_view"
+                card_view:layout_constraintRight_toLeftOf="@id/musor"/>
 
             <TextView
+                android:text="message"
                 android:id="@+id/last_message_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="5dp"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/musor"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintRight_toRightOf="parent"
+            card_view:layout_constraintLeft_toRightOf="@id/name_ans_message">
+
+            <TextView
+                android:text="00:00"
+                android:id="@+id/time_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="18sp"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                card_view:layout_constraintRight_toRightOf="parent"
+                card_view:layout_constraintBottom_toTopOf="@id/cnt_of_unread_view"
+                />
+            <android.support.v7.widget.CardView
+                android:id="@+id/unread_messages_cnt_card_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                card_view:layout_constraintRight_toLeftOf="@id/messenger_type_view"
+                card_view:layout_constraintTop_toBottomOf="@id/time_view"
+                android:foregroundGravity="center"
+                card_view:cardCornerRadius="15dp"
+                android:layout_margin="2dp"
+                card_view:cardBackgroundColor="@color/vk_light_color">
+
+                <TextView
+                    android:id="@+id/cnt_of_unread_view"
+                    android:layout_gravity="center"
+                    android:text="11"
+                    android:textColor="@color/vk_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    />
+
+            </android.support.v7.widget.CardView>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_margin="2dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/messenger_type_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:civ_border_color="@color/vk_white"
+                app:civ_border_width="0dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/time_view"
+                app:layout_constraintLeft_toRightOf="@id/cnt_of_unread_view"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

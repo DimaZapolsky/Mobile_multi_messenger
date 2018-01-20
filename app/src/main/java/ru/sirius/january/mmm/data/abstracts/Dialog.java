@@ -13,6 +13,7 @@ public abstract class Dialog implements Comparable<Dialog> {
     private String imageKey = null;
     private Message last = null;
     private int unread = 0;
+    private String MessengerType = null;
     public abstract void update();
     public abstract void loadOld();
 
@@ -71,5 +72,13 @@ public abstract class Dialog implements Comparable<Dialog> {
     @Override
     public int compareTo(@NonNull Dialog o) {
         return o.getLast().getDateTime().compareTo(getLast().getDateTime());
+    }
+
+    public String getMessengerType() {
+        return MessengerType;
+    }
+
+    public void setMessengerType(String messengerType) {
+        MessengerType = messengerType;
     }
 }

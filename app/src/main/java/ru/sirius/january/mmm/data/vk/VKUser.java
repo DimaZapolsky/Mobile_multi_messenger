@@ -37,7 +37,7 @@ public final class VKUser extends User {
                 super.onComplete(response);
                 try {
                     JSONObject res = response.json.getJSONObject("response");
-                    setOnline(res.getBoolean("online"));
+                    setOnline(res.getInt("online") == 1);
                     setLastSeen(new Date(res.getLong("time")));
                 } catch (JSONException e) {
                     Log.e("VK", "Parsing JSON", e);
