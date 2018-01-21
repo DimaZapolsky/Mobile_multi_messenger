@@ -13,19 +13,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:screenOrientation="portrait"
             android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity"
             android:theme="@style/VK.Transparent" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".vk.VkAuthActivity" />
-        <activity android:name=".DialogActivity" />
-        <activity android:name=".telegram.TelegramAuthActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".vk.VkAuthActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".DialogActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".telegram.TelegramAuthActivity"></activity>
     </application>
 
 </manifest>

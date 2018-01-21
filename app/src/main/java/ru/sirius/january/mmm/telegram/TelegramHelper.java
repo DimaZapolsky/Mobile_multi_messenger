@@ -2,11 +2,11 @@ package ru.sirius.january.mmm.telegram;
 
 import android.util.Log;
 
-import org.drinkless.td.libcore.telegram.Client;
-import org.drinkless.td.libcore.telegram.TdApi;
+//import org.drinkless.td.libcore.telegram.Client;
+//import org.drinkless.td.libcore.telegram.TdApi;
 
 public class TelegramHelper {
-
+/*
     private static TelegramHelper instance;
 
     private static String cache_dir;
@@ -133,6 +133,6 @@ public class TelegramHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }

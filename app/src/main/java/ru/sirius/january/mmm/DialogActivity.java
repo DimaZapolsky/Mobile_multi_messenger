@@ -35,6 +35,7 @@ public class DialogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
+        getSupportActionBar().hide();
         int id = 0;
         id = getIntent().getIntExtra(DIALOG_TAG, -1);
         getSupportFragmentManager().beginTransaction().add(R.id.dialog_messages_view, DialogViewFragment.newInstance(id)).commit();
@@ -46,6 +47,7 @@ public class DialogActivity extends AppCompatActivity {
         messageEdit = findViewById(R.id.type_message);
         nameView = findViewById(R.id.dialog_name_view);
 
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,8 +57,8 @@ public class DialogActivity extends AppCompatActivity {
                 }
             }
         });
-
-        iconView.setImageBitmap(StorageManager.getInstance(null).getCachedBitmap(dialog.getImageKey()));
+        Picasso.with(getApplicationContext()).load(dialog.getImageKey()).into(iconView);
+        //iconView.setImageBitmap(StorageManager.getInstance(null).getCachedBitmap(dialog.getImageKey()));
         //Picasso.with(getApplicationContext()).load("http://is1.mzstatic.com/image/thumb/Purple5/v4/12/a1/d1/12a1d127-6f0e-23a5-0b21-cc3b442d3e8c/source/1200x630bb.jpg").into(iconView);
         nameView.setText(dialog.getName());
     }

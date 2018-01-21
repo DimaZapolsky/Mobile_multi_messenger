@@ -99,8 +99,8 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogHo
             holder.unreadMessagesCntCardView.setVisibility(View.VISIBLE);
             holder.unreadMessegesCntView.setText(String.valueOf(dialog.getUnread()));
         }
-        holder.icon.setImageBitmap(StorageManager.getInstance(null).getCachedBitmap(dialog.getImageKey()));
-        //Picasso.with(holder.itemView.getContext()).load("http://is1.mzstatic.com/image/thumb/Purple5/v4/12/a1/d1/12a1d127-6f0e-23a5-0b21-cc3b442d3e8c/source/1200x630bb.jpg").into(holder.icon);
+        //holder.icon.setImageBitmap(StorageManager.getInstance(null).getCachedBitmap(dialog.getImageKey()));
+        Picasso.with(holder.itemView.getContext()).load(dialog.getImageKey()).into(holder.icon);
         holder.dialog = dialog;
     }
 
